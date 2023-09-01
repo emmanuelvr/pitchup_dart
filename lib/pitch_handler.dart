@@ -37,18 +37,33 @@ class PitchHandler {
 
   PitchResult handlePitch(double pitch) {
     if (_isPitchInRange(pitch)) {
+      final midiNumber = _midiFromPitch(pitch);
       final noteLiteral = _noteFromPitch(pitch);
-      final expectedFrequency = _frequencyFromNoteNumber(_midiFromPitch(pitch));
+      final expectedFrequency = _frequencyFromNoteNumber(midiNumber);
       final diff = _diffFromTargetedNote(pitch);
       final tuningStatus = _getTuningStatus(diff);
       final diffCents =
           _diffInCents(expectedFrequency, expectedFrequency - diff);
 
+      final int octave = (midiNumber ~/ 12) - 1;
+
       return PitchResult(
-          noteLiteral, tuningStatus, expectedFrequency, diff, diffCents);
+        note: noteLiteral,
+        tuningStatus: tuningStatus,
+        expectedFrequency: expectedFrequency,
+        diffFrequency: diff,
+        diffCents: diffCents,
+        octave:  octave,
+         );
     }
 
-    return PitchResult("", TuningStatus.undefined, 0.00, 0.00, 0.00);
+    return PitchResult(
+      note: "",
+      tuningStatus: TuningStatus.undefined,
+      expectedFrequency: 0.00,
+      diffFrequency: 0.00,
+      diffCents: 0.00,
+      octave: 0,);
   }
 
   bool _isPitchInRange(double pitch) {

@@ -8,7 +8,14 @@ class PitchResult {
   final double expectedFrequency;
   final double diffFrequency;
   final double diffCents;
+  final int octave;
 
-  PitchResult(this.note, this.tuningStatus, this.expectedFrequency,
-      this.diffFrequency, this.diffCents);
+  PitchResult({
+    required this.note,
+    required this.tuningStatus,
+    required this.expectedFrequency,
+    required this.diffFrequency,
+    required this.diffCents,
+    required this.octave,
+  });
 }
